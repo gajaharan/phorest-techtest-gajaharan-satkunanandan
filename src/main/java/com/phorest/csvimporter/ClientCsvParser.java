@@ -3,17 +3,28 @@ package com.phorest.csvimporter;
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.phorest.data.Client;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
-import java.io.StringReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class ClientCsvParser {
 
-    public List<Client> parse(String csv) {
-        if (StringUtils.isNotBlank(csv)) {
-            List<ClientCsvRecord> csvToBean = new CsvToBeanBuilder(new StringReader(csv))
+    public List<Client> read(InputStream data) {
+        if(data != null ) {
+            try (var reader = new BufferedReader(new InputStreamReader(data))) {
+                return parse(reader);
+            } catch (IOException ioe) {
+                throw new IllegalStateException("Could not read CSV file");
+            }
+        }
+        return new ArrayList<>();
+    }
+
+    private List<Client> parse(Reader reader) {
+            List<ClientCsvRecord> csvToBean = new CsvToBeanBuilder(reader)
                     .withType(ClientCsvRecord.class)
                     .withIgnoreLeadingWhiteSpace(true)
                     .withIgnoreEmptyLine(true)
@@ -23,8 +34,6 @@ public class ClientCsvParser {
             return csvToBean.stream()
                     .map(ClientCsvRecord::map)
                     .toList();
-        }
-        return new ArrayList<>();
     }
 
     public static class ClientCsvRecord {

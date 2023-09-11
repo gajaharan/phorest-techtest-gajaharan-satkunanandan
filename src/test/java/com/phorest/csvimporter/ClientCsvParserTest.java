@@ -4,9 +4,8 @@ import com.phorest.data.Client;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,21 +14,14 @@ public class ClientCsvParserTest {
 
     @Test
     public void emptyListReturnedWhenCsvDataStringIsNull() {
-        var actual = parser.parse(null);
-        assertThat(actual).isEmpty();
-    }
-
-    @Test
-    public void emptyListReturnedWhenCsvDataStringIsBlank() {
-        var actual = parser.parse("");
+        var actual = parser.read(null);
         assertThat(actual).isEmpty();
     }
 
     @Test
     public void clientDataReturnedWhenSingleRowIsParsed() throws URISyntaxException, IOException {
-        var csv = readFileAsString("/csv/valid_simple_client.csv");
-
-        var actual = parser.parse(csv);
+        var csv = readFile("/csv/valid_simple_client.csv");
+        var actual = parser.read(csv);
 
         Client client = actual.get(0);
         assertThat(client.getId()).isEqualTo("e0b8ebfc-6e57-4661-9546-328c644a3764");
@@ -38,7 +30,7 @@ public class ClientCsvParserTest {
         assertThat(client.getBanned()).isEqualTo(false);
     }
 
-    String readFileAsString(String fileName) throws URISyntaxException, IOException {
-        return Files.readString(Paths.get(ClientCsvParserTest.class.getResource(fileName).toURI()));
+    private  static InputStream readFile(String fileName) {
+        return ClientCsvParserTest.class.getResourceAsStream(fileName);
     }
 }
