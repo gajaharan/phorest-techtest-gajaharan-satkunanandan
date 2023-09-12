@@ -5,8 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
-import static javax.persistence.GenerationType.IDENTITY;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -16,26 +18,25 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Client {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(unique = true, nullable = false, updatable = false)
-    private String id;
+    @NotNull
+    private UUID id;
 
-    @Column(nullable = false)
+    @NotNull
     private String firstName;
 
-    @Column(nullable = false)
+    @NotNull
     private String lastName;
 
-    @Column(nullable = false, unique = true)
+    @Email
+    @NotNull
     private String email;
-
-    @Column(nullable = false)
+    @NotNull
     private String phone;
 
-    @Column(nullable = false)
+    @NotNull
     private String gender;
 
-    @Column(nullable = false)
+    @NotNull
     private Boolean banned;
 
 }

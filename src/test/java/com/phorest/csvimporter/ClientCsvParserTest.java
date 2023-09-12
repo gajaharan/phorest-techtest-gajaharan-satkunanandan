@@ -24,7 +24,7 @@ public class ClientCsvParserTest {
         var actual = parser.read(csv);
 
         Client client = actual.get(0);
-        assertThat(client.getId()).isEqualTo("e0b8ebfc-6e57-4661-9546-328c644a3764");
+        assertThat(client.getId().toString()).isEqualTo("e0b8ebfc-6e57-4661-9546-328c644a3764");
         assertThat(client.getFirstName()).isEqualTo("Dori");
         assertThat(client.getLastName()).isEqualTo("Dietrich");
         assertThat(client.getBanned()).isEqualTo(false);

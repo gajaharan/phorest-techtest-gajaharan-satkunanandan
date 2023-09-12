@@ -1,5 +1,6 @@
 package com.phorest.controller;
 
+import com.phorest.data.Client;
 import com.phorest.service.ClientService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
@@ -22,9 +24,9 @@ public class ClientController {
     private final ClientService clientService;
 
     @PostMapping(path = "/upload", consumes = MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Void> upload(@Valid @RequestPart("file") @NonNull MultipartFile file) throws IOException {
+    public ResponseEntity<List<Client>> upload(@Valid @RequestPart(value = "file", required = false) @NonNull MultipartFile file) throws IOException {
         var csvData = file.getInputStream();
-        clientService.upload(csvData);
-        return ResponseEntity.created(null).build();
+        List<Client> clients = clientService.upload(csvData);
+        return ResponseEntity.created(null).body(clients);
     }
 }

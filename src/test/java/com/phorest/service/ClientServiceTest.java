@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -38,7 +39,7 @@ public class ClientServiceTest {
         var csv = readFile("/csv/valid_simple_client.csv");
         List<Client> clients = List.of(
                 new Client(
-                        "e0b8ebfc-6e57-4661-9546-328c644a3764",
+                        UUID.fromString("e0b8ebfc-6e57-4661-9546-328c644a3764"),
                         "Dori",
                         "Dietrich",
                         "patrica@keeling.net",
@@ -52,7 +53,7 @@ public class ClientServiceTest {
 
 
         Client client = actual.get(0);
-        assertThat(client.getId()).isEqualTo("e0b8ebfc-6e57-4661-9546-328c644a3764");
+        assertThat(client.getId().toString()).isEqualTo("e0b8ebfc-6e57-4661-9546-328c644a3764");
     }
 
     private static InputStream readFile(String fileName) {
