@@ -1,7 +1,7 @@
-package com.phorest.service;
+package com.phorest.client;
 
 import com.phorest.data.Client;
-import com.phorest.repository.ClientRepository;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,5 +16,9 @@ public class ClientService {
     @Transactional
     public List<Client> save(List<Client> clients) {
         return clientRepository.saveAll(clients);
+    }
+
+    public List<Client> fetch(@NonNull List<String> identifiers) {
+        return clientRepository.findAllByIdIn(identifiers);
     }
 }

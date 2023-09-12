@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 public class ClientCsvParser implements CsvParser<Client> {
@@ -36,7 +35,7 @@ public class ClientCsvParser implements CsvParser<Client> {
         @Override
         public Client map() {
             return new Client(
-                    UUID.fromString(id),
+                    id,
                     firstName,
                     lastName,
                     email,

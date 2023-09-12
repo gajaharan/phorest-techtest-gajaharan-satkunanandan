@@ -1,6 +1,5 @@
 package com.phorest.data;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,18 +7,25 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
-import java.util.UUID;
-
 @Data
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "clients")
-public class Client {
+public class Client extends JpaEntity {
+
+    public Client(@NotNull String id, String firstName, String lastName, String email, String phone, String gender, Boolean banned) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.gender = gender;
+        this.banned = banned;
+    }
 
     @Id
     @NotNull
-    private UUID id;
+    private String id;
 
     @NotNull
     private String firstName;
@@ -38,5 +44,4 @@ public class Client {
 
     @NotNull
     private Boolean banned;
-
 }
