@@ -1,6 +1,6 @@
 package com.phorest.integration;
 
-import com.phorest.csvimporter.ClientCsvParser;
+import com.phorest.upload.data.ClientCsvParser;
 import com.phorest.data.Client;
 import com.phorest.repository.ClientRepository;
 import com.phorest.service.ClientService;
@@ -18,10 +18,12 @@ import org.springframework.util.LinkedMultiValueMap;
 import java.nio.file.Path;
 import java.util.List;
 
+import static com.phorest.PhorestConstants.CLIENT_IMPORT_TYPE;
+import static com.phorest.PhorestConstants.HEADER_IMPORT_TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ClientIntegrationTest {
     @Autowired
     private ClientService clientService;
@@ -36,9 +38,8 @@ public class ClientIntegrationTest {
     int randomServerPort;
 
     @Test
-    public void testAddEmployeeSuccess()
-    {
-        var baseUrl = "http://localhost:"+randomServerPort+"/api/v1/client/upload";
+    public void shouldReturn201_whenFileIsUploadedSuccessfullyAndSavedToDatabase() {
+        var baseUrl = "http://localhost:" + randomServerPort + "/api/v1/upload";
         var csvFile = getFile("/csv/valid_simple_client.csv");
 
         var body = new LinkedMultiValueMap<>();
@@ -46,7 +47,8 @@ public class ClientIntegrationTest {
 
         var requestEntity = new HttpEntity<>(body, headers());
 
-        final ResponseEntity<List<Client>> response = restTemplate.exchange(baseUrl, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<>() {});
+        final ResponseEntity<List<Client>> response = restTemplate.exchange(baseUrl, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<>() {
+        });
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         Client client = response.getBody().get(0);
@@ -56,6 +58,7 @@ public class ClientIntegrationTest {
     private HttpHeaders headers() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        headers.add(HEADER_IMPORT_TYPE, CLIENT_IMPORT_TYPE);
         return headers;
     }
 

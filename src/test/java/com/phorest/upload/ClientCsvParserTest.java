@@ -1,6 +1,7 @@
-package com.phorest.csvimporter;
+package com.phorest.upload;
 
 import com.phorest.data.Client;
+import com.phorest.upload.data.ClientCsvParser;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -30,7 +31,7 @@ public class ClientCsvParserTest {
         assertThat(client.getBanned()).isEqualTo(false);
     }
 
-    private  static InputStream readFile(String fileName) {
+    private static InputStream readFile(String fileName) {
         return ClientCsvParserTest.class.getResourceAsStream(fileName);
     }
 }
