@@ -2,8 +2,8 @@ package com.phorest.upload;
 
 import com.phorest.appointment.AppointmentService;
 import com.phorest.client.ClientService;
+import com.phorest.product.ProductService;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -30,6 +30,9 @@ public class UploadControllerTest {
 
     @MockBean
     private AppointmentService appointmentService;
+
+    @MockBean
+    private ProductService productService;
 
     private static final String ENDPOINT_URL = "/api/v1/upload";
     private static final String FILE_NAME = "/csv/valid_simple_client.csv";

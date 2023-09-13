@@ -4,12 +4,14 @@ import com.phorest.client.ClientService;
 import com.phorest.data.Appointment;
 import com.phorest.data.Client;
 import com.phorest.exception.DataNotFoundException;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,11 +27,14 @@ public class AppointmentService {
         return appointmentRepository.saveAll(updatedAppointments);
     }
 
-    private List<String> extractClientIdentifiers(List<Appointment> csvRecords) {
-        return csvRecords.stream()
+    public List<Appointment> fetch(@NonNull Set<String> identifiers) {
+        return appointmentRepository.findAllByIdIn(identifiers);
+    }
+
+    private Set<String> extractClientIdentifiers(List<Appointment> appointments) {
+        return appointments.stream()
                 .map(Appointment::getClientIdentifier)
-                .distinct()
-                .toList();
+                .collect(Collectors.toUnmodifiableSet());
     }
 
     private List<Appointment> mapAppointmentsWithClient(List<Appointment> appointments, List<Client> clients) {
@@ -43,9 +48,9 @@ public class AppointmentService {
                 )).toList();
     }
 
-    private Client findClient(String  clientIdentifier, List<Client> clients) {
+    private Client findClient(String clientIdentifier, List<Client> clients) {
         return clients.stream()
-                .filter(client -> Objects.equals(client.getId(), clientIdentifier))
+                .filter(client -> client.getId().equals(clientIdentifier))
                 .findFirst().orElseThrow(() -> new DataNotFoundException(Client.class, clientIdentifier));
     }
 }

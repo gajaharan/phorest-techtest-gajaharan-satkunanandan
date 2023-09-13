@@ -1,6 +1,8 @@
 package com.phorest.upload;
 
 import com.phorest.data.Appointment;
+import com.phorest.data.PurchaseProduct;
+import com.phorest.data.ServiceProduct;
 import com.phorest.upload.data.AppointmentCsvParser;
 import com.phorest.upload.data.ClientCsvParser;
 import com.phorest.data.Client;
@@ -19,12 +21,14 @@ public class UploadServiceTest {
     private UploadService uploadService;
     private CsvParser<Client> clientCsvParser;
     private CsvParser<Appointment> appointmentCsvParser;
+    private CsvParser<PurchaseProduct> purchaseCsvParser;
+    private CsvParser<ServiceProduct> serviceCsvParser;
 
     @BeforeEach
     public void setUp() {
         this.clientCsvParser = new ClientCsvParser();
         this.appointmentCsvParser = new AppointmentCsvParser();
-        this.uploadService = new UploadService(clientCsvParser, appointmentCsvParser);
+        this.uploadService = new UploadService(clientCsvParser, appointmentCsvParser, purchaseCsvParser, serviceCsvParser);
     }
 
     @Test

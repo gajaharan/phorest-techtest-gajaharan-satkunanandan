@@ -4,9 +4,7 @@ import com.phorest.data.Client;
 import com.phorest.upload.data.ClientCsvParser;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,7 +18,7 @@ public class ClientCsvParserTest {
     }
 
     @Test
-    public void clientDataReturnedWhenSingleRowIsParsed() throws URISyntaxException, IOException {
+    public void clientDataReturnedWhenSingleRowIsParsed() {
         var csv = readFile("/csv/valid_simple_client.csv");
         var actual = parser.read(csv);
 

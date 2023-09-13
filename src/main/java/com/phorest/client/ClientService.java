@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ public class ClientService {
         return clientRepository.saveAll(clients);
     }
 
-    public List<Client> fetch(@NonNull List<String> identifiers) {
+    public List<Client> fetch(@NonNull Set<String> identifiers) {
         return clientRepository.findAllByIdIn(identifiers);
     }
 }
