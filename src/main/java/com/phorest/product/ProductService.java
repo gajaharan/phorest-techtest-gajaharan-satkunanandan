@@ -2,7 +2,7 @@ package com.phorest.product;
 
 import com.phorest.appointment.AppointmentService;
 import com.phorest.data.*;
-import com.phorest.exception.DataNotFoundException;
+import com.phorest.exception.PhorestDataNotFoundException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -74,6 +74,6 @@ public class ProductService {
     private Appointment findAppointment(Product product, List<Appointment> appointments) {
         return appointments.stream()
                 .filter(appointment -> appointment.getId().equals(product.getAppointmentIdentifier()))
-                .findFirst().orElseThrow(() -> new DataNotFoundException(Client.class, product.getAppointmentIdentifier()));
+                .findFirst().orElseThrow(() -> new PhorestDataNotFoundException(Client.class, product.getAppointmentIdentifier()));
     }
 }

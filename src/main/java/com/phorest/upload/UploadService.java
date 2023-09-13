@@ -19,7 +19,7 @@ public class UploadService {
     private final CsvParser<PurchaseProduct> purchaseCsvParser;
     private final CsvParser<ServiceProduct> serviceCsvParser;
 
-    public <T> List<? extends JpaEntity> upload(@NonNull InputStream csvData, @NonNull String importType) {
+    public <T> List<? extends DataEntity> upload(@NonNull InputStream csvData, @NonNull String importType) {
         switch (importType) {
             case CLIENT_IMPORT_TYPE:
                 return clientCSVParser.read(csvData);
@@ -30,7 +30,8 @@ public class UploadService {
             case SERVICE_IMPORT_TYPE:
                 return serviceCsvParser.read(csvData);
             default:
-                throw new IllegalArgumentException("Invalid Import Type " + importType);
+                throw new IllegalArgumentException("Invalid Import Type: " + importType
+                        +". Please use client | appointment | purchase | service");
         }
     }
 }

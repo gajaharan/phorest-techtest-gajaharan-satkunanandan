@@ -1,12 +1,14 @@
 package com.phorest.upload.data;
 
 import com.phorest.data.PurchaseProduct;
+import com.phorest.exception.PhorestIOException;
 import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PurchaseCsvParserTest {
     PurchaseCsvParser parser = new PurchaseCsvParser();
@@ -15,6 +17,14 @@ public class PurchaseCsvParserTest {
     public void emptyListReturnedWhenCsvDataStringIsNull() {
         var actual = parser.read(null);
         assertThat(actual).isEmpty();
+    }
+
+    @Test
+    public void shouldThrowPhorestIOException() {
+        var csv = readFile("");
+        assertThrows(PhorestIOException.class,
+                () -> parser.read(csv)
+        );
     }
 
     @Test

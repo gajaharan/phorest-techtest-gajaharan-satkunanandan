@@ -52,6 +52,13 @@ public class UploadControllerTest {
         result.andExpect(status().isCreated());
     }
 
+    @Test
+    void shouldReturn400_whenUploadingWithMissingFile() throws Exception {
+        var result = mockMvc.perform((multipart(ENDPOINT_URL)));
+
+        result.andExpect(status().isBadRequest());
+    }
+
     private  static InputStream readFile(String fileName) {
         return UploadControllerTest.class.getResourceAsStream(fileName);
     }

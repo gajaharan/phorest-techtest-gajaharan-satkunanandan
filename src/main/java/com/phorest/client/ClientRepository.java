@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Repository
@@ -27,6 +26,4 @@ public interface ClientRepository extends JpaRepository<Client, String> {
                     " ; ",
             nativeQuery = true)
     Collection<Client> findTopClients(int maxLimit, String startTime);
-
-    Optional<Client> findByIdentifier(@NonNull String identifier);
 }

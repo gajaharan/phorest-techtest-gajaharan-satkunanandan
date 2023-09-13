@@ -3,7 +3,7 @@ package com.phorest.appointment;
 import com.phorest.client.ClientService;
 import com.phorest.data.Appointment;
 import com.phorest.data.Client;
-import com.phorest.exception.DataNotFoundException;
+import com.phorest.exception.PhorestDataNotFoundException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -51,6 +51,6 @@ public class AppointmentService {
     private Client findClient(String clientIdentifier, List<Client> clients) {
         return clients.stream()
                 .filter(client -> client.getId().equals(clientIdentifier))
-                .findFirst().orElseThrow(() -> new DataNotFoundException(Client.class, clientIdentifier));
+                .findFirst().orElseThrow(() -> new PhorestDataNotFoundException(Client.class, clientIdentifier));
     }
 }

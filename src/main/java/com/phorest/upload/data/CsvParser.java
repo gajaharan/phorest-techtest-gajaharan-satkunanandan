@@ -1,21 +1,22 @@
 package com.phorest.upload.data;
 
 import com.opencsv.bean.CsvToBeanBuilder;
-import com.phorest.data.JpaEntity;
+import com.phorest.data.DataEntity;
+import com.phorest.exception.PhorestIOException;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public interface CsvParser<T> {
-    List<? extends JpaEntity> read(InputStream data);
+    List<? extends DataEntity> read(InputStream data);
 
     default List<T> read(InputStream data, Class<? extends CsvMapper<T>> mapperClass) {
         if (data != null) {
             try (var reader = new BufferedReader(new InputStreamReader(data))) {
                 return parse(reader, mapperClass);
-            } catch (IOException ioe) {
-                throw new IllegalStateException("Unable to read CSV file");
+            } catch (IOException | RuntimeException ex) {
+                throw new PhorestIOException("Unable to read CSV file", ex);
             }
         }
         return new ArrayList<>();

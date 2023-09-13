@@ -51,7 +51,7 @@ public class ClientServiceTest {
                         "Male",
                         false
                 );
-        Mockito.when(mockClientRepository.findByIdentifier("e0b8ebfc-6e57-4661-9546-328c644a3764")).thenReturn(Optional.of(client));
+        Mockito.when(mockClientRepository.findById("e0b8ebfc-6e57-4661-9546-328c644a3764")).thenReturn(Optional.of(client));
         var actual = clientService.findClient("e0b8ebfc-6e57-4661-9546-328c644a3764");
 
         assertThat(client.getId()).isEqualTo("e0b8ebfc-6e57-4661-9546-328c644a3764");

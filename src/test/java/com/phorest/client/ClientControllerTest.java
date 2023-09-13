@@ -2,7 +2,7 @@ package com.phorest.client;
 
 import com.phorest.client.model.ClientDto;
 import com.phorest.data.Client;
-import com.phorest.exception.DataNotFoundException;
+import com.phorest.exception.PhorestDataNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -94,7 +94,7 @@ public class ClientControllerTest {
 
     @Test
     void findClient_shouldReturn404_whenFindingClientWithIncorrectId() throws Exception {
-        given(clientService.findClient("2")).willThrow(new DataNotFoundException(Client.class, "2"));
+        given(clientService.findClient("2")).willThrow(new PhorestDataNotFoundException(Client.class, "2"));
 
         var result = mockMvc.perform(get(FIND_CLIENT_ENDPOINT_URL+ "/2"));
 

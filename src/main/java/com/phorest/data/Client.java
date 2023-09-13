@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @NoArgsConstructor
 @Table(name = "clients")
-public class Client extends JpaEntity {
+public class Client extends DataEntity {
 
     public Client(@NotNull String id, String firstName, String lastName, String email, String phone, String gender, Boolean banned) {
         this.id = id;

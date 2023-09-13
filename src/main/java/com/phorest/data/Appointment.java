@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @Table(name = "appointments")
-public class Appointment extends JpaEntity {
+public class Appointment extends DataEntity {
 
     @Builder
     public Appointment(@NotNull String id, String clientIdentifier, LocalDateTime startTime, LocalDateTime endTime, Client client) {

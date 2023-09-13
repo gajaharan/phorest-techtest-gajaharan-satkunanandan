@@ -1,11 +1,13 @@
 package com.phorest.upload.data;
 
 import com.phorest.data.Client;
+import com.phorest.exception.PhorestIOException;
 import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ClientCsvParserTest {
     ClientCsvParser parser = new ClientCsvParser();
@@ -14,6 +16,14 @@ public class ClientCsvParserTest {
     public void emptyListReturnedWhenCsvDataStringIsNull() {
         var actual = parser.read(null);
         assertThat(actual).isEmpty();
+    }
+
+    @Test
+    public void shouldThrowPhorestIOException() {
+        var csv = readFile("");
+        assertThrows(PhorestIOException.class,
+                () -> parser.read(csv)
+        );
     }
 
     @Test

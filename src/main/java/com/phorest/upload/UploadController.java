@@ -37,6 +37,7 @@ public class UploadController {
 
         if(!savedDataList.isEmpty() && savedDataList.get(0) instanceof Client){
             clientService.save((List<Client>)savedDataList);
+            // Created multiple resources at once, so not sure about the location in the response header.
             return ResponseEntity.created(null).build();
         }
         if(!savedDataList.isEmpty() && savedDataList.get(0) instanceof Appointment){

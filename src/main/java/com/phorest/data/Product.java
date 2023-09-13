@@ -9,12 +9,12 @@ import java.math.BigDecimal;
 import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 @Data
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor
 @Inheritance(strategy = SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
 @Table(name = "products")
-public abstract class Product extends JpaEntity {
+public abstract class Product extends DataEntity {
 
     public Product(String id, String type, String appointmentIdentifier, String name, BigDecimal price, long loyaltyPoints, Appointment appointment) {
         this.id = id;
@@ -50,3 +50,4 @@ public abstract class Product extends JpaEntity {
     private Appointment appointment;
 
 }
+

@@ -2,7 +2,7 @@ package com.phorest.client;
 
 import com.phorest.client.model.ClientDto;
 import com.phorest.data.Client;
-import com.phorest.exception.DataNotFoundException;
+import com.phorest.exception.PhorestDataNotFoundException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,11 @@ public class ClientService {
     }
 
     public Client findClient(@NonNull String identifier) {
-        return clientRepository.findByIdentifier(identifier)
-                .orElseThrow(() -> new DataNotFoundException(Client.class, identifier));
+        return clientRepository.findById(identifier)
+                .orElseThrow(() -> new PhorestDataNotFoundException(Client.class, identifier));
+    }
+
+    public void deleteClient(@NonNull String identifier) {
+        clientRepository.deleteById(identifier);
     }
 }
