@@ -1,5 +1,6 @@
 package com.phorest.data;
 
+import com.phorest.client.model.ClientDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -44,4 +45,16 @@ public class Client extends JpaEntity {
 
     @NotNull
     private Boolean banned;
+
+    public ClientDto toDto() {
+        return new ClientDto(
+                id,
+                firstName,
+                lastName,
+                email,
+                phone,
+                gender,
+                banned
+        );
+    }
 }

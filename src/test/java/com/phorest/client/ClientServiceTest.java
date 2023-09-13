@@ -1,4 +1,4 @@
-package com.phorest.service;
+package com.phorest.client;
 
 import com.phorest.client.ClientService;
 import com.phorest.data.Client;
@@ -35,8 +35,7 @@ public class ClientServiceTest {
                 )
         );
         Mockito.when(mockClientRepository.saveAll(Mockito.eq(clients))).thenReturn(clients);
-        List<Client> actual = clientService.save(clients);
-
+        var actual = clientService.save(clients);
 
         Client client = actual.get(0);
         assertThat(client.getId()).isEqualTo("e0b8ebfc-6e57-4661-9546-328c644a3764");
