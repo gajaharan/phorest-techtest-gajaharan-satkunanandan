@@ -22,7 +22,7 @@ public class AppointmentService {
     @Transactional
     public List<Appointment> save(List<Appointment> appointments) {
         var clientIdentifiers = extractClientIdentifiers(appointments);
-        var clients = clientService.fetch(clientIdentifiers);
+        var clients = clientService.findClients(clientIdentifiers);
         var updatedAppointments = mapAppointmentsWithClient(appointments, clients);
         return appointmentRepository.saveAll(updatedAppointments);
     }

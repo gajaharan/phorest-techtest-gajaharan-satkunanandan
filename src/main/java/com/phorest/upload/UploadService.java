@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.phorest.PhorestConstants.*;
@@ -31,7 +30,7 @@ public class UploadService {
             case SERVICE_IMPORT_TYPE:
                 return serviceCsvParser.read(csvData);
             default:
-                return new ArrayList<>();
+                throw new IllegalArgumentException("Invalid Import Type " + importType);
         }
     }
 }

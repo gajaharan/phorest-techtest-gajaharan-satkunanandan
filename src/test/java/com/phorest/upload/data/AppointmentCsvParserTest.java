@@ -1,7 +1,6 @@
-package com.phorest.upload;
+package com.phorest.upload.data;
 
 import com.phorest.data.Appointment;
-import com.phorest.upload.data.AppointmentCsvParser;
 import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;

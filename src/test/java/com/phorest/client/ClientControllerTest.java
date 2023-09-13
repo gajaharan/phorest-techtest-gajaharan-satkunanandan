@@ -1,6 +1,8 @@
 package com.phorest.client;
 
 import com.phorest.client.model.ClientDto;
+import com.phorest.data.Client;
+import com.phorest.exception.DataNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -19,7 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(ClientController.class)
 public class ClientControllerTest {
-    private static final String ENDPOINT_URL = "/api/v1/top-clients";
+    private static final String TOP_CLIENTS_ENDPOINT_URL = "/api/v1/top-clients";
+    private static final String FIND_CLIENT_ENDPOINT_URL = "/api/v1/client";
 
     @Autowired
     private MockMvc mockMvc;
@@ -28,7 +31,7 @@ public class ClientControllerTest {
     private ClientService clientService;
 
     @Test
-    void topClients_shouldReturn200_whenFindingWithSizeLimitAndStartDate() throws Exception {
+    void topClientsSuccess_shouldReturn200_whenFindingWithSizeLimitAndStartDate() throws Exception {
         var amount = 2;
         var startTime = LocalDate.of(1981, 11, 21);
         var topClients = List.of(
@@ -38,7 +41,7 @@ public class ClientControllerTest {
         given(clientService.findTopClients(amount, startTime.toString())).willReturn(topClients);
 
         var result = mockMvc.perform(
-                get("%s?limit=%s&start_date=%s".formatted(ENDPOINT_URL, amount, startTime))
+                get("%s?limit=%s&start_date=%s".formatted(TOP_CLIENTS_ENDPOINT_URL, amount, startTime))
         );
 
         result.andExpect(status().isOk())
@@ -66,4 +69,46 @@ public class ClientControllerTest {
                         ]
                         """, true));
     }
+
+    @Test
+    void findClientSuccess_shouldReturn200_whenFindingClientById() throws Exception {
+        var client = new Client("1", "joe", "doe", "joe.doe@gmail.com", "123456789", "male", false);
+        given(clientService.findClient("1")).willReturn(client);
+
+        var result = mockMvc.perform(get(FIND_CLIENT_ENDPOINT_URL + "/1"));
+
+        result.andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json("""
+                        {
+                            "id": "1",
+                            "firstName": "joe",
+                            "lastName": "doe",
+                            "email": "joe.doe@gmail.com",
+                            "phone": "123456789",
+                            "gender": "male",
+                            "banned": false
+                        }
+                        """, true));
+    }
+
+    @Test
+    void findClient_shouldReturn404_whenFindingClientWithIncorrectId() throws Exception {
+        given(clientService.findClient("2")).willThrow(new DataNotFoundException(Client.class, "2"));
+
+        var result = mockMvc.perform(get(FIND_CLIENT_ENDPOINT_URL+ "/2"));
+
+        result.andExpect(status().isNotFound());
+    }
+
+    @Test
+    void findClient_shouldReturn500_whenFindingClientThrowsException() throws Exception {
+        given(clientService.findClient("2")).willThrow(new RuntimeException("Something went wrong"));
+
+        var result = mockMvc.perform(get(FIND_CLIENT_ENDPOINT_URL+ "/2"));
+
+        result.andExpect(status().is5xxServerError());
+    }
+
+
 }

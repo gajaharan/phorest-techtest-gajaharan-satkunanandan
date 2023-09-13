@@ -6,6 +6,7 @@ import com.phorest.data.ServiceProduct;
 import com.phorest.upload.data.AppointmentCsvParser;
 import com.phorest.upload.data.ClientCsvParser;
 import com.phorest.data.Client;
+import com.phorest.upload.data.ClientCsvParserTest;
 import com.phorest.upload.data.CsvParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,14 @@ public class UploadServiceTest {
     public void upload_shouldThrowNullPointerException() {
         assertThrows(NullPointerException.class,
                 () -> uploadService.upload(null, null)
+        );
+    }
+
+    @Test
+    public void upload_shouldThrowIllegalArgumentException() {
+        var csv = readFile("/csv/valid_simple_client.csv");
+        assertThrows(IllegalArgumentException.class,
+                () -> uploadService.upload(csv, "invalid_import_type")
         );
     }
 
